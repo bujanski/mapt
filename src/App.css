@@ -1,9 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Averia+Sans+Libre&family=Raleway&display=swap');
-
-
 @import '~leaflet/dist/leaflet.css';
-
 
 * {
   margin: 0px;
@@ -40,11 +37,20 @@
   max-width: 25vw;
 }
 
+.user-location {
+  font-family: 'Raleway', sans-serif;
+}
+
 #feature-editor {
   padding: 3px;
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
   height: 100%;
+  margin-top: 10px;
+}
+
+.editor-title {
+  font-size: 16px;
 }
 
 .map {

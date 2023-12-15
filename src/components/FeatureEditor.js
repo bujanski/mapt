@@ -1,8 +1,13 @@
 import React from 'react'
 
 function FeatureEditor() {
-  return (
-    <div id='feature-editor'>Feature Editor</div>
+    return (
+        <div id='feature-editor'>
+            <div className='editor-title'>
+                Feature Editor
+            </div>
+      
+        </div>
   )
 }
 
