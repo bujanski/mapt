@@ -1,6 +1,6 @@
 import React from 'react'
 import AppTitle from './AppTitle'
-import FeatureEditor from './FeatureEditor'
+import EventEditor from './EventEditor'
 import UserLocation from './UserLocation'
 
 function Rail() {
@@ -8,7 +8,7 @@ function Rail() {
     <div id='rail'>
       <AppTitle />
       <UserLocation />
-      <FeatureEditor />
+      <EventEditor />
     </div>
   )
 }

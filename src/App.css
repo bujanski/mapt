@@ -39,9 +39,13 @@
 
 .user-location {
   font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  text-align: center;
+  background-color: gray;
+  padding: 3px;
 }
 
-#feature-editor {
+#event-editor {
   padding: 3px;
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
@@ -50,6 +54,19 @@
 }
 
 .editor-title {
+  font-size: 16px;
+}
+
+.event-lat-long {
+  border: 1px solid black;
+  font-size: 12px;
+}
+
+.editor-field-title {
+  color: white;
+  background-color: darkslategray;
+  padding: 2px;
+  margin-top: 4px;
   font-size: 16px;
 }
 
