@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { Marker } from 'react-leaflet'
 import { Popup } from 'react-leaflet';
-import { MaptContext, maptData } from '../store/AppContext';
+import { maptData } from '../store/MaptContext';
 
 
 
 function Mapp() {
 
-    const position = maptData.userLoc;
+    const position = maptData.defaultLoc;
         
     return(
         <div className='map'>

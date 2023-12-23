@@ -5,8 +5,9 @@ import { createContext } from "react";
 export const MaptContext = createContext(null);
 
 export const maptData = {
-    userLoc: [45.26,-91.15], // the users latitude and longitude
-    userWeather: {}, // OpenWeatherMap's weather report for user's location
+    userLoc: 'unavailable', // the users latitude and longitude
+    defaultLoc: [45.26, -91.15],
+    eventWeather: {},
     userEvents: [], // Array of events added by the user
     publicEvents: [], // Array of events shared publicly with all users
     appView: 'addEvent', //

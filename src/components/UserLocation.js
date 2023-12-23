@@ -1,45 +1,28 @@
-import React, { useContext } from 'react'
-import { MaptContext, maptData } from '../store/AppContext'
-import { useEffect } from 'react'
-import { maptReducer } from '../reducers/maptReducer';
+import React, { useContext, useEffect } from 'react';
+import { MaptContext } from '../store/MaptContext';
 
 function UserLocation() {
+  const { state, dispatch } = useContext(MaptContext);
 
-
-
-    const {loc, dispatch} = useContext(MaptContext);
-    const changeLoc = (lat, long) => {
-      dispatch({type: 'changeUserLoc', payload: [lat, long] })
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const long = position.coords.longitude;
+          // Assuming you have a 'changeUserLoc' action in your reducer
+          dispatch({ type: 'changeUserLoc', payload: [lat, long] });
+        },
+        (error) => {
+          console.error('Error getting user location:', error);
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
     }
+  }, [dispatch]);
 
-
-  const getLocation = () => {
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude;
-                const long = position.coords.longitude;
-                changeLoc(lat, long)
-            },
-          
-            (error) => {
-                console.error("Error getting user location:", error);
-            }
-        );
-    }
-        
-    else {
-        return("Geolocation is not supported by this browser.");
-    }
-  }
-    
-  getLocation();
-
-
-
-  return (
-    <div className='user-location'>Your location is: {maptData.userLoc} </div>
-  )
+  return <div className="user-location">Your location is: {state.userLoc}</div>;
 }
 
-export default UserLocation
+export default UserLocation;

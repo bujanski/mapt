@@ -6,18 +6,17 @@
 import './App.css';
 import Rail from './components/Rail';
 import Mapp from './components/Mapp';
-import { MaptContext, maptData } from './store/AppContext';
+import { MaptContext, maptData } from './store/MaptContext';
 import { useReducer } from 'react';
 import { maptReducer } from './reducers/maptReducer';
 
 
 function App() {
-  const [mapt, dispatch] = useReducer(maptReducer, maptData);
-  
+  const [state, dispatch] = useReducer(maptReducer, maptData);
 
   return (
     <div className="App">
-      <MaptContext.Provider value={{mapt,dispatch}}>
+      <MaptContext.Provider value={{state,dispatch}}>
         <Rail />
         <Mapp />
       </MaptContext.Provider>
