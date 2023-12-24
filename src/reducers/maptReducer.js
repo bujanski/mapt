@@ -15,11 +15,12 @@ export const maptReducer = (state, action) => {
             return newState;
         case 'updateWeather' : newState.userWeather = payload;
             console.log(newState.userWeather);
-            const todaysDate = new Date();
-            console.log(todaysDate);
+            return newState;
+        case 'changeDate' : newState.eventTime = payload;
+            console.log(newState.eventTime)
             return newState;
     }
-    
+
     return newState;
 }
 

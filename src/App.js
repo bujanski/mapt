@@ -1,6 +1,3 @@
-// Questions:
-//   why won't my marker icons display?
-
 
 
 import './App.css';
