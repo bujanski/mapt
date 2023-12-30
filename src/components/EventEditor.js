@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { MaptContext } from '../store/MaptContext'
 import axios from 'axios';
 import flatpickr from 'flatpickr';
-import maptReducer from '../reducers/maptReducer';
+
 
 async function getWeather(lat, long, date) {
 
@@ -15,32 +15,29 @@ async function getWeather(lat, long, date) {
 }
 
 function EventEditor() {
-    const {state, dispatch} = useContext(MaptContext);
-    console.log(state.eventTime)
+    const { state, dispatch } = useContext(MaptContext);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-            const conditions = await getWeather(45.26, -91.15, '2022-12-22');
-            dispatch({ type: 'updateWeather', payload: conditions.data });
+                const conditions = await getWeather(45.26, -91.15, '2022-12-22');
+                dispatch({ type: 'updateWeather', payload: conditions.data });
             } catch (error) {
-            console.error('Error fetching weather:', error);
+                console.error('Error fetching weather:', error);
             }
         };
-    
+
         fetchData();
 
         flatpickr('#datePickerInput', {
-            dateFormat: 'Y-m-d',
+            dateFormat: 'Y-m-d H:i', // Include hours and minutes
             enableTime: true,
             onChange: (selectedDates) => {
-                // The selectedDates array contains the selected date and time
                 const selectedDateTime = selectedDates[0];
                 dispatch({ type: 'changeDate', payload: selectedDateTime });
-                // Additional options and configurations can be added here
-            } // <-- Add this closing parentheses
+            }
         });
-    }, [dispatch]);
+    }, [dispatch, state.eventHour]);
 
 
   return (
@@ -63,18 +60,26 @@ function EventEditor() {
             date & time
         </div>
         <div className='event-stat-box'>
-            <div id='datePicker'>
-                <input type='text' id='datePickerInput' placeholder='Select a date' />
+            <div id='date-picker'>
+                <input type='text' id='datePickerInput' placeholder='Change date/time' />
             </div>
             <div className='event-stat'>
                 {state.eventTime.toLocaleString()}
             </div>
-            <div className='event-stat'>
-                time
-            </div>
+            
         </div>
         <div className='editor-field-title'>
             weather
+        </div>
+        <div className='event-stat-box'>
+            <div className='event-stat'>
+                cloud cover: {state.eventWeather?.hourly?.cloud_cover[1] ?? 'no data'}% <br />
+                dew point: {state.eventWeather?.hourly?.dew_point_2m[1] ?? 'no data'} <br />
+                precipitation: {state.eventWeather?.hourly?.precipitation[1] ?? 'no data'} <br />
+                temperature: {state.eventWeather?.hourly?.temperature_2m[1] ?? 'no data'} <br />
+                {state.eventHour}
+            </div>
+            
         </div>
     </div>
   )

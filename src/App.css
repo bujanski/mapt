@@ -54,6 +54,10 @@
   margin-top: 10px;
 }
 
+#date-picker {
+  margin: 8px;
+}
+
 .editor-title {
   font-size: 16px;
 }

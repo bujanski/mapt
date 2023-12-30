@@ -13,11 +13,12 @@ export const maptReducer = (state, action) => {
         break;
         case 'changeUserLoc' : newState.userLoc = payload;
             return newState;
-        case 'updateWeather' : newState.userWeather = payload;
-            console.log(newState.userWeather);
+        case 'updateWeather' : newState.eventWeather = payload;
             return newState;
         case 'changeDate' : newState.eventTime = payload;
-            console.log(newState.eventTime)
+            // newState.eventTime = payload;
+            newState.eventHour = payload.getHours(); // Set eventHour to the hour of the day
+            console.log(newState.eventHour)
             return newState;
     }
 

@@ -12,5 +12,6 @@ export const maptData = {
     publicEvents: [], // Array of events shared publicly with all users
     appView: 'addEvent', //
     eventTime: new Date(),
+    eventHour: 'no data',
     eventID: null,
 }
