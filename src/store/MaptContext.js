@@ -15,3 +15,4 @@ export const maptData = {
     eventHour: 'no data',
     eventID: null,
 }
+

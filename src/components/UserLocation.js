@@ -22,7 +22,7 @@ function UserLocation() {
     }
   }, [dispatch]);
 
-  return <div className="user-location">Your location is: {state.userLoc}</div>;
+  return <div className="user-location">Your location is: {`${state.userLoc[0]}, ${state.userLoc[1]}`}</div>;
 }
 
 export default UserLocation;

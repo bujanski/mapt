@@ -59,13 +59,13 @@ function EventEditor() {
         <div className='editor-field-title'>
             date & time
         </div>
-        <div className='event-stat-box'>
+        <div ><div className='event-date'>                
+                {state.eventTime.toLocaleString()}
+            </div>
             <div id='date-picker'>
                 <input type='text' id='datePickerInput' placeholder='Change date/time' />
             </div>
-            <div className='event-stat'>
-                {state.eventTime.toLocaleString()}
-            </div>
+            
             
         </div>
         <div className='editor-field-title'>
@@ -73,10 +73,12 @@ function EventEditor() {
         </div>
         <div className='event-stat-box'>
             <div className='event-stat'>
-                cloud cover: {state.eventWeather?.hourly?.cloud_cover[1] ?? 'no data'}% <br />
+                cloud cover: {state.eventWeather?.hourly?.cloud_cover[1] ?? 'no data'} <br />
                 dew point: {state.eventWeather?.hourly?.dew_point_2m[1] ?? 'no data'} <br />
                 precipitation: {state.eventWeather?.hourly?.precipitation[1] ?? 'no data'} <br />
                 temperature: {state.eventWeather?.hourly?.temperature_2m[1] ?? 'no data'} <br />
+                pressure: {state.eventWeather?.hourly?.surface_pressure[1] ?? 'no data'} <br />
+                wind: {state.eventWeather?.hourly?.wind_speed_10m[1] ?? 'no data'} {state.eventWeather?.hourly?.wind_direction_10m[1] ?? 'no data'}<br />
                 {state.eventHour}
             </div>
             
