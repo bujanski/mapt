@@ -6,7 +6,7 @@ export const MaptContext = createContext(null);
 
 export const maptData = {
     userLoc: 'unavailable', // the users latitude and longitude
-    defaultLoc: [45.26, -91.15],
+    defaultLoc: [45.26, -91.14],
     eventWeather: {},
     userEvents: [], // Array of events added by the user
     publicEvents: [], // Array of events shared publicly with all users

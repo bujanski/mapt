@@ -1,5 +1,3 @@
-import { maptData } from "../store/MaptContext";
-
 export const maptReducer = (state, action) => {
     let newState = {...state};
     let {type, payload} = action;
@@ -15,15 +13,15 @@ export const maptReducer = (state, action) => {
             console.log('move event');
         break;
         case 'updateEvents' : 
-            newState.userEvents = [...newState.userEvents, ...payload];
-            console.log (newState.userEvents);
-        break;
+            newState.userEvents = payload;
+            console.log(newState.userEvents)
+            return newState;
         case 'changeUserLoc' : 
             newState.userLoc = payload;
             return newState;
         case 'updateWeather' : 
             newState.eventWeather = payload;
-            console.log(newState.eventWeather)
+
             return newState;
         case 'changeDate' : 
             newState.eventTime = payload;

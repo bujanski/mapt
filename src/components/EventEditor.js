@@ -73,7 +73,7 @@ function EventEditor() {
         </div>
         <div className='event-stat-box'>
             <div className='event-stat'>
-                cloud cover: {state.eventWeather?.hourly?.cloud_cover[1] ?? 'no data'} <br />
+                cloud cover: {state.eventWeather?.hourly?.cloud_cover[1] ?? 'no data'}% <br />
                 dew point: {state.eventWeather?.hourly?.dew_point_2m[1] ?? 'no data'} <br />
                 precipitation: {state.eventWeather?.hourly?.precipitation[1] ?? 'no data'} <br />
                 temperature: {state.eventWeather?.hourly?.temperature_2m[1] ?? 'no data'} <br />
