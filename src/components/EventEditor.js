@@ -7,7 +7,6 @@ import flatpickr from 'flatpickr';
 async function getWeather(lat, long, date) {
 
     // Recent weather: < 5 days old 
-
     // Historical weather: > 5 days old
     // const weather = {data: 'rainy'};
     const weather = await axios.get(`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${long}&start_date=${date}&end_date=${date}&hourly=temperature_2m,dew_point_2m,precipitation,surface_pressure,cloud_cover,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`);
@@ -16,6 +15,7 @@ async function getWeather(lat, long, date) {
 
 function EventEditor() {
     const { state, dispatch } = useContext(MaptContext);
+    const {eventToEdit} = state;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +30,7 @@ function EventEditor() {
         fetchData();
 
         flatpickr('#datePickerInput', {
-            dateFormat: 'Y-m-d H:i', // Include hours and minutes
+            dateFormat: 'Y-m-d H', // Include hours and minutes
             enableTime: true,
             onChange: (selectedDates) => {
                 const selectedDateTime = selectedDates[0];

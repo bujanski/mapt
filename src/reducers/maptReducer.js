@@ -28,6 +28,9 @@ export const maptReducer = (state, action) => {
             newState.eventHour = payload.getHours(); // Set eventHour to the hour of the day
             console.log(newState.eventHour)
             return newState;
+        case 'delete': 
+            newState.userEvents.pop();
+            break;
     }
 
     return newState;

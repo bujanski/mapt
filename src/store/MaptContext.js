@@ -14,5 +14,6 @@ export const maptData = {
     eventTime: new Date(),
     eventHour: 'no data',
     eventID: null,
+    eventToEdit: null,
 }
 

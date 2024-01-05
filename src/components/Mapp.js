@@ -12,24 +12,11 @@ async function getEvents() {
     return events.data;
 };
 
-const showEvents = (events) => {
-    return events.map((e) => (
-        <Marker key={e.eventID} position={[e.eventLoc[0], e.eventLoc[1]]}>
-            <Popup>
-                Time: {e.eventTime} <br />
-                Cloud cover: {e.eventWeather.cloudCover}%<br />
-                Wind: {e.eventWeather.wind[0]} mph {convertWindDir(e.eventWeather.wind[1])}<br />
-            </Popup>
-        </Marker>
-    ));
-};
 
 function convertWindDir(angle) {
     /* convert wind direction angle (0-359) to compass direction. solution taken from here: https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words */
     const compass = Math.floor((angle/22.5)+.5);
-    console.log(compass);
-    const windDir = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
-    console.log(windDir[(compass % 16)]);
+    const windDir = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
     return windDir[(compass % 16)];
 };
 
@@ -50,16 +37,58 @@ function Mapp() {
 
     }, [dispatch]);
 
+    const deleteEvent = () => {
+        dispatch({type: 'delete'})
+    }
+
     const position = maptData.defaultLoc;
 
+    const showEvents = state.userEvents.map(e =>  {
+
+        const editEvent = () => {
+            console.log(e.eventID);
+
+                /*  
+        1) //also get the weather for the updated date/time
+            place that into a new 'event' object
+    
+        2)Update the data in MockAPI
+            - hardcode that value
+            - axios.put(url,{prop: updated Value} i.e. event object)
+        
+            await confirmation
+
+            
+
+        3) Use confirmation to update the state (dispatcher)
+      
+    */
+        }
+
+        return (
+        <Marker key={e.eventID} position={[e.eventLoc[0], e.eventLoc[1]]}>
+            <Popup>
+                Time: {e.eventTime} <br />
+                Temperature: {e.eventWeather.temperature} F<br/>
+                Cloud cover: {e.eventWeather.cloudCover}%<br />
+                Hrly precip: {e.eventWeather.precipitation} in<br />
+                Wind: {e.eventWeather.wind[0]} mph {convertWindDir(e.eventWeather.wind[1])}<br />
+                <p><input type='button' value="Edit this event" onClick={editEvent} ></input></p>
+            </Popup>
+        </Marker>
+        )
+    }
+    )
+
     return (
-        <div className='map'>
+        <div className='map' onClick={deleteEvent}>
             <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: "100%" }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {showEvents(state.userEvents)}
+                
+                {showEvents}
             </MapContainer>
         </div>
     );

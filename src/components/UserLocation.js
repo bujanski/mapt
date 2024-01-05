@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { MaptContext } from '../store/MaptContext';
 
+
 function UserLocation() {
   const { state, dispatch } = useContext(MaptContext);
 
