@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Averia+Sans+Libre&family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 @import '~leaflet/dist/leaflet.css';
 @import 'flatpickr/dist/flatpickr.min.css';
 
@@ -9,7 +8,7 @@
 }
 
 .App {
-  font-family: 'Averia Sans Libre', sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: #e6e6e6;
   min-height: 100vh;
   display: flex;
@@ -34,7 +33,7 @@
 
 #rail {
   border: solid gray 2px;
-  min-width: 20vw;
+  min-width: 25vw;
   max-width: 25vw;
 }
 
@@ -49,7 +48,7 @@
 .user-weather{
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
-  text-align: center;
+  text-align: left;
   background-color: white;
   padding: 3px;
 }

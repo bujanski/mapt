@@ -1,19 +1,31 @@
 import React, { useContext, useEffect } from 'react';
 import { MaptContext } from '../store/MaptContext';
-import useGetWeather from '../hooks/useGetWeather'
+import useGetWeather from '../hooks/useGetWeather';
 
-function UserWeather() {
-    const {state} = useContext(MaptContext);
-      const userConditions = useGetWeather(44.34, -91.14, '2024-01-04')
-
-    return (
-        <div className="user-weather">
-          Your weather is:<br />
-          Temperature: {userConditions.hourly.temperature_2m[1]}
-
-          
-        </div>
-  )
+function displayKeyValuePairs(obj) {
+  const items = [];
+  for (const [key, value] of Object.entries(obj)) {
+    items.push(<li key={key}>{`${key}: ${value}`}</li>);
+  }
+  return items;
 }
 
-export default UserWeather
+function UserWeather() {
+  const { state } = useContext(MaptContext);
+  const userConditions = useGetWeather(state.userLoc[0], state.userLoc[1], '2024-01-04T15:00');
+
+  useEffect(() => {
+    // You can perform any additional logic when userConditions changes
+  }, [userConditions]);
+
+  return (
+    <div className="user-weather">
+      <h4>Conditions at your location</h4>
+      <ul>
+        {userConditions && displayKeyValuePairs(userConditions)}
+      </ul>
+    </div>
+  );
+}
+
+export default UserWeather;

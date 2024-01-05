@@ -5,7 +5,7 @@ import { createContext } from "react";
 export const MaptContext = createContext(null);
 
 export const maptData = {
-    userLoc: 'unavailable', // the users latitude and longitude
+    userLoc: [45.26, -91.14], // the users latitude and longitude
     defaultLoc: [45.26, -91.14],
     userWeather: {},
     eventWeather: {},

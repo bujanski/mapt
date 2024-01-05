@@ -7,6 +7,7 @@ import { Popup } from 'react-leaflet';
 import { maptData } from '../store/MaptContext';
 
 import { MaptContext } from '../store/MaptContext';
+import useGetWeather from '../hooks/useGetWeather';
 
 async function getEvents() {
     const events = await axios.get(`https://657a45f61acd268f9afade6a.mockapi.io/events`);
@@ -38,18 +39,16 @@ function Mapp() {
 
     }, [dispatch]);
 
-    const deleteEvent = () => {
-        dispatch({type: 'delete'})
-    }
 
     const position = maptData.defaultLoc;
+    const vibe = useGetWeather(45.1,-90.1,'2023-01-05T16:00');
 
     const showEvents = state.userEvents.map(e =>  {
 
         const editEvent = () => {
             console.log(e.eventID);
 
-                /*  
+        /*  
         1) //also get the weather for the updated date/time
             place that into a new 'event' object
     
@@ -59,11 +58,8 @@ function Mapp() {
         
             await confirmation
 
-            
-
         3) Use confirmation to update the state (dispatcher)
-      
-    */
+        */
         }
 
         return (
@@ -79,10 +75,10 @@ function Mapp() {
         </Marker>
         )
     }
-    )
+    );
 
     return (
-        <div className='map' onClick={deleteEvent}>
+        <div className='map'>
             <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: "100%" }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

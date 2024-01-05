@@ -4,27 +4,27 @@ import axios from 'axios';
 import flatpickr from 'flatpickr';
 
 
-async function getWeather(lat, long, date) {
+// async function getWeather(lat, long, date) {
 
-    const weather = await axios.get(`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${long}&start_date=${date}&end_date=${date}&hourly=temperature_2m,dew_point_2m,precipitation,surface_pressure,cloud_cover,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`);
-    return weather;
-}
+//     const weather = await axios.get(`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${long}&start_date=${date}&end_date=${date}&hourly=temperature_2m,dew_point_2m,precipitation,surface_pressure,cloud_cover,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`);
+//     return weather;
+// }
 
 function EventEditor() {
     const { state, dispatch } = useContext(MaptContext);
     const {eventToEdit} = state;
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const conditions = await getWeather(45.26, -91.15, '2022-12-22');
-                dispatch({ type: 'updateWeather', payload: conditions.data });
-            } catch (error) {
-                console.error('Error fetching weather:', error);
-            }
-        };
+        // const fetchData = async () => {
+        //     try {
+        //         const conditions = await getWeather(45.26, -91.15, '2022-12-22');
+        //         dispatch({ type: 'updateWeather', payload: conditions.data });
+        //     } catch (error) {
+        //         console.error('Error fetching weather:', error);
+        //     }
+        // };
 
-        fetchData();
+        // fetchData();
 
         flatpickr('#datePickerInput', {
             dateFormat: 'Y-m-d H', // Include hours and minutes
