@@ -14,7 +14,6 @@ export const maptReducer = (state, action) => {
         break;
         case 'updateEvents' : 
             newState.userEvents = payload;
-            console.log(newState.userEvents)
             return newState;
         case 'changeUserLoc' : 
             newState.userLoc = payload;

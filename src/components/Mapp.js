@@ -1,17 +1,17 @@
-import React, { useEffect, useContext } from 'react'
-import { MapContainer } from 'react-leaflet/MapContainer'
-import { TileLayer } from 'react-leaflet/TileLayer'
-import { Marker } from 'react-leaflet'
+import React, { useEffect, useContext } from 'react';
+import axios from 'axios';
+import { MapContainer } from 'react-leaflet/MapContainer';
+import { TileLayer } from 'react-leaflet/TileLayer';
+import { Marker } from 'react-leaflet';
 import { Popup } from 'react-leaflet';
 import { maptData } from '../store/MaptContext';
-import axios from 'axios';
+
 import { MaptContext } from '../store/MaptContext';
 
 async function getEvents() {
     const events = await axios.get(`https://657a45f61acd268f9afade6a.mockapi.io/events`);
     return events.data;
 };
-
 
 function convertWindDir(angle) {
     /* convert wind direction angle (0-359) to compass direction. solution taken from here: https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words */
@@ -21,6 +21,7 @@ function convertWindDir(angle) {
 };
 
 function Mapp() {
+    
     const { state, dispatch } = useContext(MaptContext);
 
     useEffect(() => {

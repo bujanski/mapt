@@ -46,6 +46,14 @@
   padding: 3px;
 }
 
+.user-weather{
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  text-align: center;
+  background-color: white;
+  padding: 3px;
+}
+
 #event-editor {
   background-color: #f2efe9;
   padding: 3px;
