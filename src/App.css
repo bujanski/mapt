@@ -1,4 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Love+Ya+Like+A+Sister&display=swap');
+
 @import '~leaflet/dist/leaflet.css';
 @import 'flatpickr/dist/flatpickr.min.css';
 
@@ -19,11 +23,11 @@
 }
 
 .app-title {
+  font-family: 'Love Ya Like A Sister', cursive;
   background-color: #69835f;
   color: #add19e;
-  font-size: 32px;
+  font-size: 1.75em;
   padding: 2px 4px 6px 6px;
-  
 }
 
 #left-side {
@@ -38,7 +42,6 @@
 }
 
 .user-location {
-  font-family: 'Raleway', sans-serif;
   font-size: 14px;
   text-align: center;
   background-color: #adacac;
@@ -46,7 +49,6 @@
 }
 
 .user-weather{
-  font-family: 'Raleway', sans-serif;
   font-size: 14px;
   text-align: left;
   background-color: white;
@@ -56,7 +58,6 @@
 #event-editor {
   background-color: #f2efe9;
   padding: 3px;
-  font-family: 'Raleway', sans-serif;
   font-size: 20px;
   height: 100%;
   margin-top: 10px;
@@ -73,7 +74,7 @@
 .event-stat-box {
   border: 1px solid black;
   font-size: 14px;
-  margin: 0px opx 8px 0px;
+  margin: 0px 0px 8px 0px;
   display: flex;
   font-weight: bold;
 }
@@ -84,8 +85,9 @@
 }
 
 .editor-field-title {
-  color: white;
-  background-color: darkslategray;
+  color: #add19e;
+  background-color: #69835f;
+  font-weight: bold;
   padding: 3px;
   margin-top: 8px;
   font-size: 16px;
@@ -94,7 +96,6 @@
 .event-date {
   font-size: 14px;
   margin: 4px;
-  text-align: center;
 }
 
 .map {

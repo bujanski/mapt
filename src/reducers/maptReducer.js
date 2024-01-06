@@ -12,6 +12,9 @@ export const maptReducer = (state, action) => {
         case 'moveEvent' : 
             console.log('move event');
         break;
+        case 'changeEventToEdit' :
+            newState.eventToEdit = payload;
+            return newState;
         case 'updateEvents' : 
             newState.userEvents = payload;
             return newState;
@@ -20,16 +23,12 @@ export const maptReducer = (state, action) => {
             return newState;
         case 'updateWeather' : 
             newState.eventWeather = payload;
-
             return newState;
         case 'changeDate' : 
             newState.eventTime = payload;
             newState.eventHour = payload.getHours(); // Set eventHour to the hour of the day
             console.log(newState.eventHour)
             return newState;
-        case 'delete': 
-            newState.userEvents.pop();
-            break;
     }
 
     return newState;

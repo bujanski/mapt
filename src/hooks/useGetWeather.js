@@ -64,6 +64,5 @@ export default function useGetWeather(lat, long, date) {
     fetchData();
   }, []);
 
-  console.log(weatherData)
   return weatherData; // Return the weatherData state
 }

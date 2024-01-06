@@ -1,6 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { MaptContext } from '../store/MaptContext';
 
+function truncateDecimal(number, decimalPlaces) {
+  const factor = 10 ** decimalPlaces;
+  return Math.round(number * factor) / factor;
+}
 
 function UserLocation() {
   const { state, dispatch } = useContext(MaptContext);
@@ -9,9 +13,8 @@ function UserLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const lat = position.coords.latitude;
-          const long = position.coords.longitude;
-          // Assuming you have a 'changeUserLoc' action in your reducer
+          const lat = truncateDecimal(position.coords.latitude, 5);
+          const long = truncateDecimal(position.coords.longitude, 5);
           dispatch({ type: 'changeUserLoc', payload: [lat, long] });
         },
         (error) => {
@@ -23,7 +26,11 @@ function UserLocation() {
     }
   }, [dispatch]);
 
-  return <div className="user-location">Your location is: {`${state.userLoc[0]}, ${state.userLoc[1]}`}</div>;
+  return (
+    <div className="user-location">
+      Your location is: {`${state.userLoc[0]}, ${state.userLoc[1]}`}
+    </div>
+  );
 }
 
 export default UserLocation;

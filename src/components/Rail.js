@@ -17,7 +17,7 @@ function Rail() {
     <div id='rail'>
       <AppTitle />
       <UserLocation />
-      <UserWeather />
+      {eventToEdit ? null: <UserWeather />}
       {eventToEdit ? <EventEditor /> : null}
       
     </div>

@@ -2,12 +2,10 @@ import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { MapContainer } from 'react-leaflet/MapContainer';
 import { TileLayer } from 'react-leaflet/TileLayer';
-import { Marker } from 'react-leaflet';
-import { Popup } from 'react-leaflet';
+import { Marker, Popup } from 'react-leaflet';
 import { maptData } from '../store/MaptContext';
-
 import { MaptContext } from '../store/MaptContext';
-import useGetWeather from '../hooks/useGetWeather';
+
 
 async function getEvents() {
     const events = await axios.get(`https://657a45f61acd268f9afade6a.mockapi.io/events`);
@@ -24,6 +22,7 @@ function convertWindDir(angle) {
 function Mapp() {
     
     const { state, dispatch } = useContext(MaptContext);
+    const { eventToEdit } = state;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,14 +38,12 @@ function Mapp() {
 
     }, [dispatch]);
 
-
     const position = maptData.defaultLoc;
-    const vibe = useGetWeather(45.1,-90.1,'2023-01-05T16:00');
 
     const showEvents = state.userEvents.map(e =>  {
 
-        const editEvent = () => {
-            console.log(e.eventID);
+    const editEvent = () => {
+        dispatch({ type: 'changeEventToEdit', payload: e.eventID });
 
         /*  
         1) //also get the weather for the updated date/time
@@ -60,9 +57,9 @@ function Mapp() {
 
         3) Use confirmation to update the state (dispatcher)
         */
-        }
+    }
 
-        return (
+    return (
         <Marker key={e.eventID} position={[e.eventLoc[0], e.eventLoc[1]]}>
             <Popup>
                 Time: {e.eventTime} <br />
@@ -74,8 +71,7 @@ function Mapp() {
             </Popup>
         </Marker>
         )
-    }
-    );
+    });
 
     return (
         <div className='map'>
