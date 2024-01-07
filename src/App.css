@@ -1,138 +1,156 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Love+Ya+Like+A+Sister&display=swap');
-
+@import url( 'https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url( 'https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
+@import url( 'https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Love+Ya+Like+A+Sister&display=swap');
 @import '~leaflet/dist/leaflet.css';
 @import 'flatpickr/dist/flatpickr.min.css';
 
 * {
-  margin: 0px;
-  box-sizing: border-box;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .App {
-  font-family: 'Inter', sans-serif;
-  background-color: #e6e6e6;
-  min-height: 100vh;
-  display: flex;
-  align-items: left;
-  justify-content: left;
-  font-size: calc(10px + 2vmin);
-  color: black;
+    font-family: 'Inter', sans-serif;
+    background-color: #e6e6e6;
+    min-height: 100vh;
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    font-size: calc(10px + 2vmin);
+    color: black;
 }
 
 .app-title {
-  font-family: 'Love Ya Like A Sister', cursive;
-  background-color: #69835f;
-  color: #add19e;
-  font-size: 1.75em;
-  padding: 2px 4px 6px 6px;
+    font-family: 'Love Ya Like A Sister', cursive;
+    background-color: #69835f;
+    color: #add19e;
+    font-size: 1.75em;
+    padding: 2px 4px 6px 6px;
 }
 
 #left-side {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 #rail {
-  border: solid gray 2px;
-  min-width: 30vw;
+    border: solid gray 2px;
+    min-width: 30vw;
+    background-color: #f2efe9;
 }
 
 .user-location {
-  font-size: 14px;
-  text-align: center;
-  background-color: #adacac;
-  padding: 3px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #adacac;
+    padding: 3px;
 }
 
-.user-weather{
-  font-size: 14px;
-  text-align: left;
-  background-color: #f2efe9;
-  padding: 3px;
+.user-weather {
+    font-size: 14px;
+    text-align: left;
+    background-color: #f2efe9;
+    padding: 3px;
 }
 
 #event-editor {
-  background-color: #f2efe9;
-  padding: 3px;
-  font-size: 20px;
-  height: 100%;
-  margin-top: 10px;
+    background-color: #f2efe9;
+    padding: 3px;
+    font-size: 20px;
+    height: 100%;
+    margin-top: 10px;
 }
 
 #date-picker {
-  font-size: 14px;
-  margin: 4px;
+    font-size: 14px;
+    margin: 4px;
+}
+
+.date-widget {
+    margin: 4px 0px 4px 0px;
 }
 
 .editor-title {
-  font-size: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
 }
 
 .event-stat-box {
-  border: 1px solid black;
-  font-size: 14px;
-  margin: 0px 0px 8px 0px;
-  display: flex;
-  font-weight: bold;
+    border: 1px solid black;
+    font-size: 14px;
+    margin: 0 0 8px;
+    display: flex;
+    font-weight: bold;
 }
 
 .event-weather-box {
-  border: 1px solid black;
-  font-size: 14px;
-  margin: 0px 0px 8px 0px;
+    border: 1px solid black;
+    font-size: 14px;
+    margin: 0 0 8px;
+    padding: 4px;
 }
 
 .event-stat {
-  margin: 5px;
+    margin: 5px;
+    font-weight:400;
 }
 
 .editor-field-title {
-  color: #add19e;
-  background-color: #69835f;
-  font-weight: bold;
-  padding: 3px;
-  margin-top: 8px;
-  font-size: 16px;
+    color: #add19e;
+    background-color: #69835f;
+    font-weight: bold;
+    padding: 3px;
+    margin-top: 8px;
+    font-size: 16px;
 }
 
 .editor-button-container {
-  display: flex;
-  justify-content: right;
+    display: flex;
+    justify-content: right;
 }
 
 .date-editor {
-  border: 1px solid black;
+    border: 1px solid black;
 }
+
+.loc-change-button {
+    background-color: #69835f;
+    color: white;
+    font-weight: bolder;
+    border-radius: 6px;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
 .submit-button {
-  background-color: #69835f;
-  color: white;
-  font-size: .75em;
-  font-weight: bolder;
-  border-radius: 6px;
-  padding: 5px;
-  cursor: pointer;
+    background-color: #69835f;
+    color: white;
+    font-size: 0.75em;
+    font-weight: bolder;
+    border-radius: 6px;
+    padding: 5px;
+    cursor: pointer;
 }
 
 .cancel-button {
-  background-color: #add19e;
-  color: #69835f;
-  font-size: .75em;
-  font-weight: bolder;
-  border-radius: 6px;
-  padding: 5px;
-  cursor: pointer;
+    background-color: #add19e;
+    color: #69835f;
+    font-size: 0.75em;
+    font-weight: bolder;
+    border-radius: 6px;
+    padding: 5px;
+    cursor: pointer;
 }
 
 .event-date {
-  font-size: 14px;
-  margin: 4px;
-  
+    font-size: 14px;
+    margin: 4px;
+
 }
 
 .map {
-  width: 100vw;
-  height: 100vh;
+    width: 100vw;
+    height: 100vh;
 }
