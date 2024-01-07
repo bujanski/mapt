@@ -33,21 +33,21 @@ async function getWeather(lat, long, date) {
 
   if (timeSplit > histTimeSplit) {
     const historicalWeather = await axios.get(
-      `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${long}&start_date=${trimmedDate}&end_date=${trimmedDate}&hourly=temperature_2m,dew_point_2m,precipitation,surface_pressure,cloud_cover,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`
+      `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${long}&start_date=${trimmedDate}&end_date=${trimmedDate}&hourly=temperature_2m,precipitation,surface_pressure,cloud_cover,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`
     );
     let hourPosition = historicalWeather.data.hourly.time.findIndex((element) => element === date);
     let hourWeather = extractHourWeather(historicalWeather.data.hourly, hourPosition);
-
+    console.log(hourWeather);
     return hourWeather; 
   } 
   
   else {
     const recentWeather = await axios.get(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,precipitation,surface_pressure,cloud_cover,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&past_days=5&forecast_days=1`
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,precipitation,surface_pressure,cloud_cover,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&past_days=5&forecast_days=1`
     );
     let hourPosition = recentWeather.data.hourly.time.findIndex((element) => element === date);
     let hourWeather = extractHourWeather(recentWeather.data.hourly, hourPosition);
-
+    console.log(hourWeather);
     return hourWeather; 
   }
 }

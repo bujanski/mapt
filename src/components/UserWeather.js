@@ -12,7 +12,8 @@ function displayKeyValuePairs(obj) {
 
 function UserWeather() {
   const { state } = useContext(MaptContext);
-  const userConditions = useGetWeather(state.userLoc[0], state.userLoc[1], '2024-01-04T15:00');
+  const userConditions = useGetWeather(state.userLoc[0], state.userLoc[1], state.userTime);
+  console.log(state.userTime)
 
   useEffect(() => {
     // You can perform any additional logic when userConditions changes

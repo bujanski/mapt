@@ -44,29 +44,17 @@ function Mapp() {
 
     const editEvent = () => {
         dispatch({ type: 'changeEventToEdit', payload: e.eventID });
-
-        /*  
-        1) //also get the weather for the updated date/time
-            place that into a new 'event' object
-    
-        2)Update the data in MockAPI
-            - hardcode that value
-            - axios.put(url,{prop: updated Value} i.e. event object)
-        
-            await confirmation
-
-        3) Use confirmation to update the state (dispatcher)
-        */
     }
 
     return (
-        <Marker key={e.eventID} position={[e.eventLoc[0], e.eventLoc[1]]}>
+        <Marker key={e.eventID} position={[e.location[0], e.location[1]]}>
             <Popup>
-                Time: {e.eventTime} <br />
-                Temperature: {e.eventWeather.temperature} F<br/>
-                Cloud cover: {e.eventWeather.cloudCover}%<br />
-                Hrly precip: {e.eventWeather.precipitation} in<br />
-                Wind: {e.eventWeather.wind[0]} mph {convertWindDir(e.eventWeather.wind[1])}<br />
+                Fish: {e.fish_species} <br />
+                Time: {e.weather.time} <br />
+                Temperature: {e.weather.temperature_2m} F<br/>
+                Cloud cover: {e.weather.cloud_cover}%<br />
+                Hrly precip: {e.weather.precipitation} in<br />
+                Wind: {e.weather.wind_speed_10m} mph {convertWindDir(e.weather.wind_direction_10m)}<br />
                 <p><input type='button' value="Edit this event" onClick={editEvent} ></input></p>
             </Popup>
         </Marker>

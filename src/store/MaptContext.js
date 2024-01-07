@@ -4,9 +4,13 @@ import { createContext } from "react";
 
 export const MaptContext = createContext(null);
 
+const currentDate = new Date();
+currentDate.setMinutes(0); // Set minutes to 00
+
 export const maptData = {
     userLoc: [45.26, -91.14], // the users latitude and longitude
     defaultLoc: [45.26, -91.14],
+    userTime: currentDate.toISOString().slice(0, 16), // Format to 'YYYY-MM-DDTHH:mm'
     userWeather: {},
     userEvents: [], // Array of events added by the user
     publicEvents: [], // Array of events shared publicly with all users
@@ -17,3 +21,18 @@ export const maptData = {
     eventToEdit: null,
 }
 
+export const fishSpeciesOptions = [
+    "Bluegill",
+    "Bullhead",
+    "Channel catfish",
+    "Crappie",
+    "Flathead catfish",
+    "Lake sturgeon",
+    "Largemouth bass",
+    "Muskie",
+    "Northern pike",
+    "Perch",
+    "Rock bass",
+    "Smallmouth bass",
+    "Walleye",
+  ];
