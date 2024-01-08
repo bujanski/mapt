@@ -27,7 +27,9 @@ export const maptData = {
     eventTime: new Date(),
     eventHour: 'no data',
     eventID: null,
-    eventToEdit: null
+    eventToEdit: null,
+    locationToSelect: null,
+    hideEvents: false,
 }
 
 export const fishSpeciesOptions = [

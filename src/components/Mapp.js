@@ -1,19 +1,18 @@
 import React, {useEffect, useContext} from 'react';
 import axios from 'axios';
-import {MapContainer} from 'react-leaflet/MapContainer';
-import {TileLayer} from 'react-leaflet/TileLayer';
-import {Marker, Popup} from 'react-leaflet';
+import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import {maptData} from '../store/MaptContext';
 import {MaptContext} from '../store/MaptContext';
+import SelectLocation from './SelectLocation';
 
 async function getEvents() {
     const events = await axios.get(`https://657a45f61acd268f9afade6a.mockapi.io/events`);
     return events.data;
-};
+}
 
 function convertWindDir(angle) {
     /* convert wind direction angle (0-359) to compass direction. solution taken from here: https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words */
-    const compass = Math.floor((angle / 22.5) + .5);
+    const compass = Math.floor((angle / 22.5) + 0.5);
     const windDir = [
         "N",
         "NNE",
@@ -33,11 +32,11 @@ function convertWindDir(angle) {
         "NNW"
     ];
     return windDir[(compass % 16)];
-};
+}
 
 function Mapp() {
     const {state, dispatch} = useContext(MaptContext);
-    const {eventToEdit} = state;
+    const {eventToEdit, locationToSelect} = state;
 
     useEffect(() => {
         const fetchData = async() => {
@@ -53,16 +52,36 @@ function Mapp() {
     }, [dispatch]);
 
     const position = maptData.defaultLoc;
+
+    const handleMarkerDragEnd = (event) => {
+        const markerLatLng = event
+            .target
+            .getLatLng();
+
+        // Truncate latitude and longitude to no more than five digits
+        const truncatedLatLng = {
+            lat: parseFloat(markerLatLng.lat.toFixed(5)),
+            lng: parseFloat(markerLatLng.lng.toFixed(5))
+        };
+        dispatch({type: 'updateLocation', payload: truncatedLatLng});
+    };
+
     const showEvents = state
         .userEvents
-        .map(e => {
+        .map((e) => {
 
             const editEvent = () => {
                 dispatch({type: 'changeEventToEdit', payload: e.eventID});
             }
 
             return (
-                <Marker key={e.eventID} position={[e.location[0], e.location[1]]}>
+                <Marker
+                    key={e.eventID}
+                    position={[e.location[0], e.location[1]]}
+                    draggable={eventToEdit}
+                    eventHandlers={{
+                    dragend: handleMarkerDragEnd
+                }}>
                     <Popup>
                         Fish: {e.fish_species}
                         <br/>
@@ -83,6 +102,10 @@ function Mapp() {
             )
         });
 
+    const showSelectedEvent = state
+        .userEvents
+        .find((event) => event.eventID === state.eventToEdit);
+
     return (
         <div className='map'>
             <MapContainer
@@ -94,8 +117,27 @@ function Mapp() {
             }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> {showEvents}
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> {!eventToEdit
+                    ? showEvents
+                    : (
+                        <Marker
+                            key={showSelectedEvent.eventID}
+                            position={[showSelectedEvent.location[0], showSelectedEvent.location[1]]}
+                            draggable={eventToEdit}
+                            eventHandlers={{
+                            dragend: handleMarkerDragEnd
+                        }}>
+                            <Popup>
+                                Fish: {showSelectedEvent.fish_species}
+                                <br/>
+                                Time: {showSelectedEvent.weather.time}
+                            </Popup>
+                        </Marker>
+                    )}
             </MapContainer>
+            {locationToSelect
+                ? <SelectLocation/>
+                : null}
         </div>
     );
 }

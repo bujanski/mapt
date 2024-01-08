@@ -29,7 +29,7 @@ function convertWindDir(angle) {
 
 function EventEditor() {
     const {state, dispatch} = useContext(MaptContext);
-    const {eventToEdit, userEvents} = state;
+    const {eventToEdit, userEvents, locationToSelect} = state;
     const [eventData,
         setEventData] = useState(null);
 
@@ -43,7 +43,11 @@ function EventEditor() {
     }
 
     const handleSubmit = () => {
-        dispatch({type: 'updateEvent'});
+        dispatch({type: 'updateEventData', payload: eventData.location});
+    }
+
+    const handleLocSelect = () => {
+        dispatch({type: 'selectLocation'})
     }
 
     useEffect(() => {
@@ -53,13 +57,10 @@ function EventEditor() {
         if (selectedEvent) {
             // Set event data to state
             setEventData(selectedEvent);
-
-            // You can dispatch an action to update other parts of the state if needed
-            // dispatch({ type: 'updateOtherState', payload: selectedEvent.someValue });
         }
 
         flatpickr('#datePickerInput', {
-            dateFormat: 'Y-m-d H', // Include hours and minutes
+            dateFormat: 'Y-m-d H:i', // Include hours and minutes
             enableTime: true,
             defaultDate: selectedEvent
                 ? selectedEvent.eventTime
@@ -95,7 +96,7 @@ function EventEditor() {
                         className="loc-change-button"
                         type='button'
                         value="Change location"
-                        onClick={handleCancel}></input>
+                        onClick={handleLocSelect}></input>
                 </p>
             </div>
             <div className='editor-field-title'>

@@ -67,7 +67,7 @@
 }
 
 .date-widget {
-    margin: 4px 0px 4px 0px;
+    margin: 4px 0;
 }
 
 .editor-title {
@@ -93,7 +93,7 @@
 
 .event-stat {
     margin: 5px;
-    font-weight:400;
+    font-weight: 400;
 }
 
 .editor-field-title {
@@ -153,4 +153,18 @@
 .map {
     width: 100vw;
     height: 100vh;
+}
+
+.select-location {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f0f0f0;
+    border: 2px solid black;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    width: 80%;
+    z-index: 1000;
 }

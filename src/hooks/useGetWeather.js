@@ -49,7 +49,6 @@ async function getWeather(lat, long, date) {
             .time
             .findIndex((element) => element === date);
         let hourWeather = extractHourWeather(recentWeather.data.hourly, hourPosition);
-        console.log(hourWeather);
         return hourWeather;
     }
 }
