@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { MaptContext } from '../store/MaptContext';
 import { fishSpeciesOptions, fishLengthOptions } from '../store/MaptContext';
 import flatpickr from 'flatpickr';
+import axios from 'axios';
 
 function convertWindDir(angle) {
     /* convert wind direction angle (0-359) to compass direction. solution taken from here: https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words */
@@ -43,7 +44,35 @@ function EventEditor() {
     }
 
     const handleSubmit = () => {
-        dispatch({type: 'updateEventData', payload: eventData.location});
+        console.log(eventToEdit); //id
+
+        
+
+        async function updateLocationData() {
+            try {
+
+                // Update the location for the specified event
+                await axios.put(`https://657a45f61acd268f9afade6a.mockapi.io/events/${eventToEdit}`, {fish_species: 'Tuna'});
+
+                console.log(`Location updated successfully for event with eventID: ${state.eventToEdit}`);
+            } catch (error) {
+                console.error('Error updating location:', error);
+            }
+        }
+
+        // Call the function to update the location data
+        updateLocationData();
+
+        //one you can update the backend, and then refetch all of the data
+
+        // two actions
+
+            //first: update the backend
+
+            //second: update the state, so that it reflect the change made to the backend
+
+
+        // dispatch({type: 'updateEventData', payload: eventData.location});
     }
 
     const handleLocSelect = () => {
@@ -60,7 +89,7 @@ function EventEditor() {
         }
 
         flatpickr('#datePickerInput', {
-            dateFormat: 'Y-m-d H:i', // Include hours and minutes
+            dateFormat: 'Y-m-d H', // Include hours and minutes
             enableTime: true,
             defaultDate: selectedEvent
                 ? selectedEvent.eventTime

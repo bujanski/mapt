@@ -44,49 +44,20 @@ export const maptReducer = (state, action) => {
             newState.locationToSelect = null;
             return newState;
         case 'updateEventData':
+            // id of the one you want to update
 
-            async function updateLocationData() {
-                try {
-                    const response = await axios.get(`https://657a45f61acd268f9afade6a.mockapi.io/events`);
+            //you have an obj with the properties of the one you want to update
 
-                    const updatedEvents = response
-                        .data
-                        .map(event => {
-                            if (event.eventID === state.eventToEdit) {
-                                return {
-                                    ...event,
-                                    location: payload
-                                };
-                            }
-                            return event;
-                        });
+            // newSTate.events = newSTtate.events.map(e => {
+                // if (e.di === payload.id) {
+                //     e = {...e, ...payload}
+                // }
+            //     // return e
+            // })
+            // break;
 
-                    console.log(updatedEvents);
 
-                    // Update the location for the specified event
-                    await axios.put(`https://657a45f61acd268f9afade6a.mockapi.io/events`, updatedEvents, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    });
 
-                    console.log(`Location updated successfully for event with eventID: ${state.eventToEdit}`);
-                } catch (error) {
-                    console.error('Error updating location:', error);
-                }
-            }
-
-            // Call the function to update the location data
-            updateLocationData();
-
-            newState.eventToEdit = null;
-            return newState;
-
-            // Call the function to update the location data
-            updateLocationData();
-
-            newState.eventToEdit = null;
-            return newState;
 
     }
 
