@@ -35,8 +35,13 @@
 
 #rail {
     border: solid gray 2px;
-    min-width: 30vw;
     background-color: #f2efe9;
+}
+
+@media (min-width: 475px) {
+    #rail {
+        width: 475px;
+    }
 }
 
 .user-location {
@@ -76,6 +81,12 @@
     color: black;
 }
 
+.tooltip {
+    font-size: .75em;
+    font-weight: 100;
+    margin: 8px 0px 0px 8px;
+}
+
 .event-stat-box {
     border: 1px solid black;
     font-size: 14px;
@@ -110,6 +121,12 @@
     justify-content: right;
 }
 
+.delete-prompt-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 12px;
+}
+
 .date-editor {
     border: 1px solid black;
 }
@@ -132,6 +149,7 @@
     border-radius: 6px;
     padding: 5px;
     cursor: pointer;
+    margin-left: 8px;
 }
 
 .cancel-button {
@@ -142,6 +160,17 @@
     border-radius: 6px;
     padding: 5px;
     cursor: pointer;
+}
+
+.delete-button {
+    background-color: #add19e4b;
+    color: #69835f;
+    font-size: 0.75em;
+    font-weight: bolder;
+    border-radius: 6px;
+    padding: 5px;
+    cursor: pointer;
+    margin-top: 20px;
 }
 
 .event-date {
@@ -155,16 +184,32 @@
     height: 100vh;
 }
 
-.select-location {
+.delete-event {
     position: fixed;
-    top: 0;
+    top: 30%;
     left: 50%;
     transform: translateX(-50%);
     background-color: #f0f0f0;
-    border: 2px solid black;
+    border: 2px solid #69835f;
     padding: 10px;
     margin: 10px;
     text-align: center;
     width: 80%;
     z-index: 1000;
+}
+
+.add-event-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.add-event-button {
+    background-color: #69835f;
+    color: white;
+    font-size: 0.75em;
+    font-weight: bolder;
+    border-radius: 6px;
+    padding: 5px;
+    cursor: pointer;
+    margin-top: 24px;
 }

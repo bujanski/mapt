@@ -15,7 +15,7 @@ export const maptData = {
         45.26, -91.14
     ], // the users latitude and longitude
     defaultLoc: [
-        45.26, -91.14
+        45.2635, -91.14
     ],
     userTime: currentDate
         .toISOString()
@@ -23,13 +23,10 @@ export const maptData = {
     userWeather: {},
     userEvents: [], // Array of events added by the user
     publicEvents: [], // Array of events shared publicly with all users
-    appView: 'addEvent', //
-    eventTime: new Date(),
-    eventHour: 'no data',
     eventID: null,
+    eventToAdd: null,
     eventToEdit: null,
-    locationToSelect: null,
-    hideEvents: false,
+    eventToDelete: null,
 }
 
 export const fishSpeciesOptions = [
@@ -49,7 +46,7 @@ export const fishSpeciesOptions = [
 ];
 
 export const fishLengthOptions = [
-    5,
+    "smol",
     6,
     7,
     8,

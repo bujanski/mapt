@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { MaptContext } from '../store/MaptContext';
-import { fishSpeciesOptions, fishLengthOptions } from '../store/MaptContext';
+import React, {useContext, useEffect, useState} from 'react';
+import {MaptContext} from '../store/MaptContext';
+import {fishSpeciesOptions, fishLengthOptions} from '../store/MaptContext';
 import flatpickr from 'flatpickr';
 import axios from 'axios';
+import { getWeather } from '../weatherlogic';
 
 function convertWindDir(angle) {
     /* convert wind direction angle (0-359) to compass direction. solution taken from here: https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words */
@@ -30,7 +31,7 @@ function convertWindDir(angle) {
 
 function EventEditor() {
     const {state, dispatch} = useContext(MaptContext);
-    const {eventToEdit, userEvents, locationToSelect} = state;
+    const {eventToEdit, userEvents} = state;
     const [eventData,
         setEventData] = useState(null);
 
@@ -39,63 +40,58 @@ function EventEditor() {
         return userEvents.find((event) => event.eventID === eventId);
     };
 
+    const handleDateChange = async (selectedDateTime) => {
+        selectedDateTime.setMinutes(0);
+        const newWeather = await getWeather(eventData.location[0], eventData.location[1], selectedDateTime.toISOString().slice(0, 16));
+        console.log(newWeather)
+        setEventData({
+            ...eventData,
+            weather: {
+                ...eventData.weather,
+                ...newWeather
+            }
+        });
+    };
+
     const handleCancel = () => {
         dispatch({type: 'cancelEventToEdit'});
     }
 
+    const handleDelete = () => {
+        dispatch({type: 'deletePrompt', payload: eventToEdit});
+    }
+
     const handleSubmit = () => {
-        console.log(eventToEdit); //id
 
-        
-
-        async function updateLocationData() {
+        async function updateEventData() {
             try {
-
-                // Update the location for the specified event
-                await axios.put(`https://657a45f61acd268f9afade6a.mockapi.io/events/${eventToEdit}`, {fish_species: 'Tuna'});
-
-                console.log(`Location updated successfully for event with eventID: ${state.eventToEdit}`);
+                await axios.put(`https://657a45f61acd268f9afade6a.mockapi.io/events/${eventToEdit}`, eventData);
+                dispatch({type: 'updateEventData'});
             } catch (error) {
                 console.error('Error updating location:', error);
             }
         }
 
         // Call the function to update the location data
-        updateLocationData();
+        updateEventData();
 
-        //one you can update the backend, and then refetch all of the data
-
-        // two actions
-
-            //first: update the backend
-
-            //second: update the state, so that it reflect the change made to the backend
-
-
-        // dispatch({type: 'updateEventData', payload: eventData.location});
-    }
-
-    const handleLocSelect = () => {
-        dispatch({type: 'selectLocation'})
     }
 
     useEffect(() => {
         // Find the event with the matching ID
         const selectedEvent = findEventById(eventToEdit);
-
         if (selectedEvent) {
             // Set event data to state
             setEventData(selectedEvent);
         }
 
         flatpickr('#datePickerInput', {
-            dateFormat: 'Y-m-d H', // Include hours and minutes
+            dateFormat: 'Y-m-d H:i', // Include hours and minutes
             enableTime: true,
-            defaultDate: selectedEvent
-                ? selectedEvent.eventTime
-                : null, // Set default date to the event's date
+            defaultDate: selectedEvent.weather.time,
             onChange: (selectedDates) => {
                 const selectedDateTime = selectedDates[0];
+                handleDateChange(selectedDateTime); // Call handleDateChange
                 dispatch({type: 'changeDate', payload: selectedDateTime});
             }
         });
@@ -115,17 +111,13 @@ function EventEditor() {
             </div>
             <div className='event-stat-box'>
                 <div className='event-stat'>
-                    lat: {eventData.location[0]}
+                    <b>lat:</b><br/> {eventData.location[0]}
                 </div>
                 <div className='event-stat'>
-                    long: {eventData.location[1]}
+                    <b>long:</b><br/> {eventData.location[1]}
                 </div><br/>
-                <p>
-                    <input
-                        className="loc-change-button"
-                        type='button'
-                        value="Change location"
-                        onClick={handleLocSelect}></input>
+                <p className='tooltip'>
+                    Drag the marker to change location
                 </p>
             </div>
             <div className='editor-field-title'>
@@ -150,18 +142,21 @@ function EventEditor() {
 
                 </div>
                 <div className='event-stat'>
-                    <b>Length:</b> 
-                    <br />
+                    <b>Length:</b>
+                    <br/>
                     <select
                         value={eventData.fish_length}
-                        onChange={(e) => setEventData({ ...eventData, fish_length: e.target.value })}
-                    >
+                        onChange={(e) => setEventData({
+                        ...eventData,
+                        fish_length: e.target.value
+                    })}>
                         {fishLengthOptions.map((length, index) => (
                             <option key={index} value={length}>
                                 {length}
                             </option>
                         ))}
-                    </select> inches
+                    </select>
+                    inches
                 </div>
             </div>
             <div className='editor-field-title'>
@@ -172,8 +167,12 @@ function EventEditor() {
                     <b>{eventData.weather.time}</b>
                 </div>
                 <div id='date-picker'>
-                    Change date/time:
-                    <input type='text' className="date-widget" id='datePickerInput' placeholder='Select date/time'/>
+                    Change date/time:&nbsp;
+                    <input
+                        type='text'
+                        className="date-widget"
+                        id='datePickerInput'
+                        placeholder='Select date/time'/>
                 </div>
             </div>
             <div className='editor-field-title'>
@@ -182,11 +181,13 @@ function EventEditor() {
             <div className='event-weather-box'>
                 <b>Temp</b>: {eventData.weather.temperature_2m}&deg; F<br/>
                 <b>Hrly precip</b>: {eventData.weather.precipitation}"<br/>
-                <b>Pressure</b>: {eventData.weather.surface_pressure} mmHg<br/>
+                <b>Pressure</b>: {eventData.weather.surface_pressure}&nbsp;mmHg<br/>
                 <b>Cloud cover</b>: {eventData.weather.cloud_cover}%<br/>
-                <b>Wind</b>: {eventData.weather.wind_speed_10m} mph {convertWindDir(eventData.weather.wind_direction_10m)}<br/>
+                <b>Wind</b>: {eventData.weather.wind_speed_10m}
+                mph {convertWindDir(eventData.weather.wind_direction_10m)}<br/>
             </div>
             <div className='editor-button-container'>
+
                 <p>
                     <input
                         className="cancel-button"
@@ -202,6 +203,15 @@ function EventEditor() {
                         onClick={handleSubmit}></input>
                 </p>
 
+            </div>
+            <div className='editor-button-container'>
+                <p>
+                    <input
+                        className="delete-button"
+                        type='button'
+                        value="Delete"
+                        onClick={handleDelete}></input>
+                </p>
             </div>
         </div>
     );

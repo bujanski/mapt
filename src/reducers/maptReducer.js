@@ -10,11 +10,20 @@ export const maptReducer = (state, action) => {
         case 'addEvent':
             console.log('add event');
             break;
+        case 'deletePrompt' :
+            console.log(payload)
+            newState.eventToDelete = payload;
+            return newState;
         case 'deleteEvent':
-            console.log('delete event');
-            break;
-        case 'moveEvent':
-            console.log('move event');
+            newState.userEvents = newState.userEvents.filter(e => e.eventID !== payload);
+            newState.eventToDelete = null;
+            newState.eventToEdit = null;
+            return newState;
+        case 'cancelDelete' :
+            newState.eventToDelete = null;
+            newState.eventToEdit = null;
+            return newState;
+        case 'changeDate':
             break;
         case 'changeEventToEdit':
             newState.eventToEdit = payload;
@@ -33,9 +42,7 @@ export const maptReducer = (state, action) => {
             return newState;
         case 'changeDate':
             return newState;
-        case 'selectLocation':
-            newState.locationToSelect = true;
-            return newState;
+
         case 'updateLocation':
             newState
                 .userEvents
@@ -44,21 +51,8 @@ export const maptReducer = (state, action) => {
             newState.locationToSelect = null;
             return newState;
         case 'updateEventData':
-            // id of the one you want to update
-
-            //you have an obj with the properties of the one you want to update
-
-            // newSTate.events = newSTtate.events.map(e => {
-                // if (e.di === payload.id) {
-                //     e = {...e, ...payload}
-                // }
-            //     // return e
-            // })
-            // break;
-
-
-
-
+            newState.eventToEdit = null;
+            return newState;
     }
 
     return newState;

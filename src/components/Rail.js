@@ -4,12 +4,12 @@ import EventEditor from './EventEditor'
 import UserLocation from './UserLocation'
 import UserWeather from './UserWeather'
 import {MaptContext} from '../store/MaptContext'
-import useGetWeather from '../hooks/useGetWeather'
+import AddEventButton from './AddEventButton'
 
 function Rail() {
 
     const {state} = useContext(MaptContext);
-    const {eventToEdit} = state;
+    const {eventToEdit, eventToAdd} = state;
 
     //state --> eventToEdit (null) : {eventObj}
 
@@ -18,11 +18,15 @@ function Rail() {
             <AppTitle/>
             <UserLocation/> {eventToEdit
                 ? null
-                : <UserWeather/>}
+                : <UserWeather />}
+            {eventToEdit
+                ? null
+                : <AddEventButton />}
+                
             {eventToEdit
                 ? <EventEditor/>
                 : null}
-
+            
         </div>
     )
 }

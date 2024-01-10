@@ -3,7 +3,7 @@ import axios from 'axios';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import {maptData} from '../store/MaptContext';
 import {MaptContext} from '../store/MaptContext';
-import SelectLocation from './SelectLocation';
+import DeleteEvent from './DeleteEvent';
 
 async function getEvents() {
     const events = await axios.get(`https://657a45f61acd268f9afade6a.mockapi.io/events`);
@@ -36,7 +36,7 @@ function convertWindDir(angle) {
 
 function Mapp() {
     const {state, dispatch} = useContext(MaptContext);
-    const {eventToEdit, locationToSelect} = state;
+    const {eventToEdit, eventToDelete} = state;
 
     useEffect(() => {
         const fetchData = async() => {
@@ -49,7 +49,7 @@ function Mapp() {
         };
 
         fetchData();
-    }, [dispatch]);
+    }, [dispatch, eventToEdit, eventToDelete]);
 
     const position = maptData.defaultLoc;
 
@@ -135,8 +135,8 @@ function Mapp() {
                         </Marker>
                     )}
             </MapContainer>
-            {locationToSelect
-                ? <SelectLocation/>
+            {eventToDelete
+                ? <DeleteEvent/>
                 : null}
         </div>
     );
