@@ -27,9 +27,11 @@ export const maptData = {
     eventToAdd: null,
     eventToEdit: null,
     eventToDelete: null,
+    newEvent: null,
 }
 
 export const fishSpeciesOptions = [
+    "None",
     "Bluegill",
     "Bullhead",
     "Channel catfish",

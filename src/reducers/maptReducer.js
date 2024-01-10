@@ -42,7 +42,6 @@ export const maptReducer = (state, action) => {
             return newState;
         case 'changeDate':
             return newState;
-
         case 'updateLocation':
             newState
                 .userEvents
@@ -53,6 +52,24 @@ export const maptReducer = (state, action) => {
         case 'updateEventData':
             newState.eventToEdit = null;
             return newState;
+        case 'eventToAdd':
+            newState.eventToAdd = payload.id;
+            return newState;
+        case 'cancelAddEvent':
+            newState.eventToAdd = null;
+            newState.newEvent = null;
+            return newState;
+        case 'updateEventToAdd':
+            newState.newEvent = payload;
+            return newState;
+        case 'updateNewEventLocation':
+            newState.newEvent.location = [payload.lat, payload.lng];
+            return newState;
+        case 'postNewEvent':
+            newState.newEvent = null;
+            newState.eventToAdd = null;
+            return newState;
+
     }
 
     return newState;

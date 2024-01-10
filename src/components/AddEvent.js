@@ -1,110 +1,110 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {MaptContext} from '../store/MaptContext';
-import {fishSpeciesOptions, fishLengthOptions} from '../store/MaptContext';
+import React, { useContext, useEffect, useState } from 'react';
+import { MaptContext } from '../store/MaptContext';
+import { fishSpeciesOptions, fishLengthOptions } from '../store/MaptContext';
 import flatpickr from 'flatpickr';
+import { getWeather } from '../weatherlogic';
 import axios from 'axios';
-import {getWeather} from '../weatherlogic';
 
 function convertWindDir(angle) {
-    /* convert wind direction angle (0-359) to compass direction. solution taken from here: https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words */
-    const compass = Math.floor((angle / 22.5) + .5);
-    const windDir = [
-        "N",
-        "NNE",
-        "NE",
-        "ENE",
-        "E",
-        "ESE",
-        "SE",
-        "SSE",
-        "S",
-        "SSW",
-        "SW",
-        "WSW",
-        "W",
-        "WNW",
-        "NW",
-        "NNW"
-    ];
-    return windDir[(compass % 16)];
+  const compass = Math.floor((angle / 22.5) + .5);
+  const windDir = [
+    "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+    "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"
+  ];
+  return windDir[(compass % 16)];
 };
 
-function EventEditor() {
-    const {state, dispatch} = useContext(MaptContext);
-    const {eventToEdit, userEvents} = state;
-    const [eventData,
-        setEventData] = useState(null);
+function AddEvent() {
+  const { state, dispatch } = useContext(MaptContext);
+  const { newEvent } = state;
+  const [eventData, setEventData] = useState(newEvent);
 
-    // Function to find the event with the matching ID
-    const findEventById = (eventId) => {
-        return userEvents.find((event) => event.eventID === eventId);
-    };
+  const handleDateChange = async (selectedDateTime) => {
+    selectedDateTime.setMinutes(0);
+    const newWeather = await getWeather(
+      eventData.location[0],
+      eventData.location[1],
+      selectedDateTime.toISOString().slice(0, 16)
+    );
 
-    const handleDateChange = async(selectedDateTime) => {
-        selectedDateTime.setMinutes(0);
-        const newWeather = await getWeather(eventData.location[0], eventData.location[1], selectedDateTime.toISOString().slice(0, 16));
-        console.log(newWeather)
-        setEventData({
-            ...eventData,
-            weather: {
-                ...eventData.weather,
-                ...newWeather
-            }
-        });
-    };
+    setEventData({
+      ...eventData,
+      weather: {
+        ...eventData.weather, // Spread existing weather data
+        ...newWeather,        // Spread new weather data
+      }
+    });
+  };
 
-    const handleCancel = () => {
-        dispatch({type: 'cancelEventToEdit'});
+  const handleCancel = () => {
+    dispatch({ type: 'cancelAddEvent' });
+  }
+
+  const handleSubmit = () => {
+    async function updateEventData() {
+      try {
+        console.log(eventData);
+        await axios.post(`https://657a45f61acd268f9afade6a.mockapi.io/events/`, eventData);
+        dispatch({ type: 'postNewEvent' });
+      } catch (error) {
+        console.error('Error adding event:', error);
+      }
     }
+    // Call the function to update the location data
+    updateEventData();
+  }
 
-    const handleDelete = () => {
-        dispatch({type: 'deletePrompt', payload: eventToEdit});
-    }
+//   useEffect(() => {
+//     const fetchInitialWeather = async () => {
+//       try {
+//         const initialDateTime = new Date(eventData.weather.time);
+//         initialDateTime.setMinutes(0);
+//         console.log(initialDateTime.toISOString().slice(0, 16))
+//         const isoDateTime = initialDateTime.toISOString().slice(0, 16);
+//         const initialWeather = await getWeather(
+//           eventData.location[0],
+//           eventData.location[1],
+//           isoDateTime
+//         );
+//             console.log(initialWeather)
+//         setEventData({
+//           ...eventData,
+//           weather: {
+//             ...eventData.weather,  // Spread existing weather data
+//             ...initialWeather,     // Spread initial weather data
+//           }
+//         });
+//       } catch (error) {
+//         console.error('Error fetching initial weather:', error);
+//       }
+//     };
+  
+//     fetchInitialWeather();
+  
+//   }, []);
 
-    const handleSubmit = () => {
+  useEffect(() => {
+    flatpickr('#datePickerInput', {
+      dateFormat: 'Y-m-d H:i', // Include hours and minutes
+      enableTime: true,
+      defaultDate: eventData.weather.time,
+      onChange: (selectedDates) => {
+        const selectedDateTime = selectedDates[0];
+        handleDateChange(selectedDateTime);
+        dispatch({ type: 'changeDate', payload: selectedDateTime });
+      }
+    });
 
-        async function updateEventData() {
-            try {
-                await axios.put(`https://657a45f61acd268f9afade6a.mockapi.io/events/${eventToEdit}`, eventData);
-                dispatch({type: 'updateEventData'});
-            } catch (error) {
-                console.error('Error updating location:', error);
-            }
-        }
+  }, [dispatch, eventData]);
 
-        // Call the function to update the location data
-        updateEventData();
-
-    }
-
-    useEffect(() => {
-        // Find the event with the matching ID
-        const selectedEvent = findEventById(eventToEdit);
-        if (selectedEvent) {
-            // Set event data to state
-            setEventData(selectedEvent);
-        }
-
-        flatpickr('#datePickerInput', {
-            dateFormat: 'Y-m-d H:i', // Include hours and minutes
-            enableTime: true,
-            defaultDate: selectedEvent.weather.time,
-            onChange: (selectedDates) => {
-                const selectedDateTime = selectedDates[0];
-                handleDateChange(selectedDateTime); // Call handleDateChange
-                dispatch({type: 'changeDate', payload: selectedDateTime});
-            }
-        });
-    }, [dispatch, eventToEdit, userEvents]);
-
-    if (!eventData) {
+    if (!newEvent) {
         return <div>Loading...</div>; // or any other loading indicator
     }
 
     return (
         <div id='event-editor'>
             <div className='editor-title'>
-                Event Editor
+                Add a new event
             </div>
             <div className='editor-field-title'>
                 coordinates
@@ -130,7 +130,7 @@ function EventEditor() {
                     <select
                         value={eventData.fish_species}
                         onChange={(e) => setEventData({
-                        ...eventData,
+                        ...newEvent,
                         fish_species: e.target.value
                     })}>
                         {fishSpeciesOptions.map((species, index) => (
@@ -147,7 +147,7 @@ function EventEditor() {
                     <select
                         value={eventData.fish_length}
                         onChange={(e) => setEventData({
-                        ...eventData,
+                        ...newEvent,
                         fish_length: e.target.value
                     })}>
                         {fishLengthOptions.map((length, index) => (
@@ -163,6 +163,7 @@ function EventEditor() {
                 date & time
             </div>
             <div className='date-editor'>
+                <div className='tooltip'>All times rounded to the latest hour</div>
                 <div className='event-date'>
                     <b>{eventData.weather.time}</b>
                 </div>
@@ -199,22 +200,13 @@ function EventEditor() {
                     <input
                         className="submit-button"
                         type='button'
-                        value="Update"
+                        value="Add event"
                         onClick={handleSubmit}></input>
                 </p>
 
-            </div>
-            <div className='editor-button-container'>
-                <p>
-                    <input
-                        className="delete-button"
-                        type='button'
-                        value="Delete"
-                        onClick={handleDelete}></input>
-                </p>
             </div>
         </div>
     );
 }
 
-export default EventEditor;
+export default AddEvent;

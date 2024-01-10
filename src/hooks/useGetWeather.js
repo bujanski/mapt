@@ -22,7 +22,6 @@ function extractHourWeather(data, hour) {
             }
         }
     }
-
     return hourWeather;
 }
 
